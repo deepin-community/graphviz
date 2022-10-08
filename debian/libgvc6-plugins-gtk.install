@@ -1,0 +1,4 @@
+# To be changed into an in extenso list if plugins are added
+usr/lib/*/graphviz/libgvplugin_gtk.so.*
+usr/lib/*/graphviz/libgvplugin_gdk.so.*
+usr/lib/*/graphviz/libgvplugin_rsvg.so.*

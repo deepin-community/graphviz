@@ -1,0 +1,8 @@
+#! /usr/bin/perl
+use Config;
+my $vendorarch = substr( $Config{vendorarch}, 1 );
+
+print "usr/lib/*/graphviz/perl/gv.pm         $vendorarch\n";
+print "usr/lib/*/graphviz/perl/gv.so         $vendorarch/auto/gv\n";
+print "usr/lib/*/graphviz/perl/libgv_perl.so $vendorarch/auto/gv\n";
+print "usr/share/man/man3/gv.3perl\n";

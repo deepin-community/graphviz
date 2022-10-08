@@ -1,0 +1,2 @@
+version=4
+https://gitlab.com/graphviz/graphviz/-/tags .*stable_release_(\d\S+)\.(?:tar\.xz|txz|tar\.bz2|tbz2|tar\.gz|tgz)

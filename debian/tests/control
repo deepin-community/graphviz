@@ -1,0 +1,2 @@
+Tests: dot
+Depends: graphviz, file

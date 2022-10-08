@@ -1,0 +1,3 @@
+usr/lib/*/graphviz/ruby/libgv_ruby.so
+usr/share/man/man3/gv.3ruby
+usr/lib/*/ruby/vendor_ruby/*/gv.so

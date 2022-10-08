@@ -1,0 +1,16 @@
+#!/bin/sh
+# smoke test for "dot"
+# Author: Martin Pitt <martin.pitt@ubuntu.com>
+
+set -eu
+
+cat <<EOF > $AUTOPKGTEST_TMP/simple.dot
+digraph {
+        One -> Two
+        Two -> Three
+        Three -> One
+}
+EOF
+
+dot -Tpng $AUTOPKGTEST_TMP/simple.dot > $AUTOPKGTEST_TMP/simple.png
+file $AUTOPKGTEST_TMP/simple.png | grep -q "PNG image data"

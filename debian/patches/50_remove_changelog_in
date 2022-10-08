@@ -1,0 +1,28 @@
+Description: remove Debian references from upstream
+ Don't alter files under debian/ directory.
+Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Last-Update: 2019-09-01
+
+---
+
+--- graphviz-2.42.1.orig/Makefile.am
++++ graphviz-2.42.1/Makefile.am
+@@ -45,7 +45,7 @@ EXTRA_DIST = $(txt) $(html) graphviz.spe
+ 	graphviz.7 Doxyfile.in Doxyfile awk \
+ 	config/config_perl.pl config/config_python.py \
+ 	config/config_ruby.rb config/config_tcl.tcl dot.demo  plugin.demo \
+-	macosx windows debian redhat graphviz.sln
++	macosx windows redhat graphviz.sln
+ 
+ .PHONY: rpm
+ rpm: dist
+--- graphviz-2.42.1.orig/configure.ac
++++ graphviz-2.42.1/configure.ac
+@@ -2886,7 +2886,6 @@ AM_CONDITIONAL(HAVE_CRITERION, test "$us
+ # Generate Makefiles
+ #	tests/regression_tests/vuln/Makefile was removed
+ AC_CONFIG_FILES(Makefile
+-	debian/changelog
+ 	doc/Makefile
+ 	doc/info/Makefile
+ 	doc/schema/Makefile
