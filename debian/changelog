@@ -1,3 +1,20 @@
+graphviz (2.42.2-7) unstable; urgency=medium
+
+  * Recommend fonts-liberation2 (closes: #1003006).
+
+  [ Mattias Ellert <mattias.ellert@physics.uu.se> ]
+  * Drop ruby plugin on ia64 (closes: #1012744).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 15 Jun 2022 19:55:30 +0200
+
+graphviz (2.42.2-6) unstable; urgency=medium
+
+  [ Bas Couwenberg <sebastic@debian.org> ]
+  * Don't build PHP extension, swig doesn't support PHP 8 yet
+    (closes: #1004956).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 06 Feb 2022 19:03:12 +0100
+
 graphviz (2.42.2-5) unstable; urgency=high
 
   * Fix CVE-2020-18032: out of bounds write on invalid label
@@ -1324,8 +1341,8 @@ graphviz (2.12-1) unstable; urgency=low
   * Disabled the build of the contrib `diffimg' tool since it looks like
     there's a missing .la file:
      - 0_disable_diffimg.
-  * Added a patch to handle minus vs hyphen signs in the manpages: 
-     - 3_manpages_hyphen_fix. 
+  * Added a patch to handle minus vs hyphen signs in the manpages:
+     - 3_manpages_hyphen_fix.
 
   [debian/control]
   * Made the package binNMU safe by switching from `${Source-Version}' to
@@ -1455,7 +1472,7 @@ graphviz (2.8-2.2) unstable; urgency=medium
 
   * NMU to fix a Failure To Build From Source due to a missing dependency on
     liblua50-dev. (Closes: #377694).
-  * Fixed debian/rules so that the .diff.gz is cleaner. (Closes: #373256) 
+  * Fixed debian/rules so that the .diff.gz is cleaner. (Closes: #373256)
 
  -- Margarita Manterola <marga@debian.org>  Tue, 18 Jul 2006 15:27:49 -0300
 
@@ -1470,7 +1487,7 @@ graphviz (2.8-2.1) unstable; urgency=high
 
 graphviz (2.8-2) unstable; urgency=low
 
-  * Awaken Tcl parts missed in 2.8-1 package 
+  * Awaken Tcl parts missed in 2.8-1 package
   * Apply patch from upstream enabling python I/F to build on 64bit machines
   * Apply patch from upstream adding warn when python won't be built
   * Ensure all index.html links work again (Closes: Bug#298463)
@@ -1499,7 +1516,7 @@ graphviz (2.8-1) unstable; urgency=low
 graphviz (2.8-0.4) unstable; urgency=low
 
   * NMU, coordinating with the maintainer
-  * debian/control: At last added libltdl3-dev to Build-Depends which 
+  * debian/control: At last added libltdl3-dev to Build-Depends which
     should have happened in revision 2.8-0.2 	(Closes: #359903, #360049)
   * debian/rules: Give dh_shlibdeps an explicit -l target
   * debian/rules: Add -n to dh_mkshlibs call to not modify post{inst,rm}
@@ -1510,20 +1527,20 @@ graphviz (2.8-0.4) unstable; urgency=low
 graphviz (2.8-0.3) unstable; urgency=low
 
   * NMU, coordinating with the maintainer
-  
-  * debian/postinst: Call 'dot -c' to pre-seed configuration. This is 
+
+  * debian/postinst: Call 'dot -c' to pre-seed configuration. This is
     typically done at build-time via the upstream Makefile, but cannot be
-    used for a Debian build (yet, at least).  Running it in the postinst 
+    used for a Debian build (yet, at least).  Running it in the postinst
     is a close enough approximation.   (Closes: #359312, #359622, #359808)
-  
+
  -- Dirk Eddelbuettel <edd@debian.org>  Wed, 29 Mar 2006 17:53:20 -0600
 
 graphviz (2.8-0.2) unstable; urgency=low
 
-  * NMU 
+  * NMU
   * debian/rules: Remove /usr/lib/libltdl.* and /usr/include/ltdl.h
   * debian/control: Add Depends: libltdl3-dev to graphiviz-dev
-  
+
  -- Dirk Eddelbuettel <edd@debian.org>  Sat, 25 Mar 2006 22:35:51 -0600
 
 graphviz (2.8-0.1) unstable; urgency=low
@@ -1535,9 +1552,9 @@ graphviz (2.8-0.1) unstable; urgency=low
     as shared libs cannot be resolved right after build
 
   * debian/rules: Set DH_COMPAT=4
-  * debian/rules: As the upstream change a few things since the last Debian 
-    new build of a new major release a year ago, chose to commented out a 
-    large section of postprocessing and cleaning following make install 
+  * debian/rules: As the upstream change a few things since the last Debian
+    new build of a new major release a year ago, chose to commented out a
+    large section of postprocessing and cleaning following make install
   * debian/rules: Added removal of dot_static and extra COPYING (lintian)
 
  -- Dirk Eddelbuettel <edd@debian.org>  Sat, 25 Mar 2006 17:05:35 -0600
@@ -1799,6 +1816,6 @@ graphviz (1.5-2) unstable; urgency=low
 
 graphviz (1.5-1) unstable; urgency=low
 
-  * Initial Release.  
+  * Initial Release.
 
  -- Stephen M. Moraco <stephen@col.hp.com>  Fri, 31 Dec 1999 15:37:17 -0700
