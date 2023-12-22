@@ -17,6 +17,15 @@ ifneq (,$(filter $(DEB_HOST_ARCH), mipsel mips))
 DEB_CFLAGS_MAINT_APPEND += "-fno-ipa-sra"
 endif
 
+N =
+
+ifeq ($(DEB_HOST_ARCH),ia64)
+RUBY = --disable-ruby
+N += -Nlibgv-ruby
+else
+RUBY = --enable-ruby
+endif
+
 PYTHON_VERSIONS  = $(shell pyversions -r)
 PYTHON3_VERSIONS = $(shell py3versions -r)
 
@@ -28,9 +37,6 @@ SO_PATHPLAN	= 4
 SO_XDOT		= 4
 SO_GVPR		= 2
 SO_LAB-GAMUT	= 1
-
-PHP_EXTENSION_DIR = $(shell php-config --extension-dir)
-PHP_PACKAGE       = $(CURDIR)/debian/libgv-php7
 
 override_dh_clean:
 	dh_clean
@@ -73,8 +79,8 @@ override_dh_auto_configure:
 	--disable-go \
 	--enable-guile \
 	--enable-lua \
-	--enable-php \
-	--enable-ruby \
+	--disable-php \
+	$(RUBY) \
 	--enable-tcl \
 	--disable-java \
 	--disable-ocaml \
@@ -111,7 +117,7 @@ override_dh_install-indep:
 	rm -f $(CURDIR)/debian/graphviz-doc/usr/share/doc/graphviz/ChangeLog
 
 %:
-	dh $@ --with python3
+	dh $@ --with python3 $(N)
 
 .PHONY: override_dh_clean override_dh_autoreconf override_dh_auto_configure \
 	override_dh_auto_test override_dh_auto_install \

@@ -24,12 +24,11 @@ Build-Depends: tk-dev,
  ghostscript,
  lua5.2,
  liblua5.2-dev,
- ruby,
- ruby-dev (>= 1:2.2),
+ ruby [!ia64],
+ ruby-dev (>= 1:2.2) [!ia64],
  libargon2-dev,
  libsodium-dev,
  libxml2-dev,
- php-dev,
  python3-dev,
  libcairo2-dev,
  libpango1.0-dev,
@@ -47,7 +46,7 @@ Package: graphviz
 Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, libgvc6 (>= 2.42.1), ${misc:Depends}
-Recommends: fonts-liberation
+Recommends: fonts-liberation2
 Suggests: gsfonts, graphviz-doc
 Description: rich set of graph drawing tools
  Graph drawing addresses the problem of visualizing structural information
@@ -104,17 +103,6 @@ Description: Perl bindings for graphviz
  package for a full description.
  .
  This package contains the Perl bindings.
-
-Package: libgv-php7
-Architecture: any
-Multi-Arch: same
-Section: php
-Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}
-Description: PHP7 bindings for graphviz
- Graphviz is a set of graph drawing tools. See the description of the graphviz
- package for a full description.
- .
- This package contains the PHP7 bindings.
 
 Package: python3-gv
 Architecture: any
