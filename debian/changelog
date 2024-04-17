@@ -1,3 +1,16 @@
+graphviz (2.42.2-9) unstable; urgency=medium
+
+  [ Andrey Rakhmatullin <wrar@debian.org> ]
+  * Fix FTBFS with -Werror=implicit-function-declaration (closes: #1066358).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 16 Mar 2024 11:56:48 +0100
+
+graphviz (2.42.2-8) unstable; urgency=medium
+
+  * Fix CVE-2023-46045: buffer overflow via a crafted config6a file.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Fri, 26 Jan 2024 21:26:42 +0100
+
 graphviz (2.42.2-7) unstable; urgency=medium
 
   * Recommend fonts-liberation2 (closes: #1003006).
