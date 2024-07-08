@@ -1,3 +1,9 @@
+graphviz (2.42.2-9deepin1) unstable; urgency=medium
+
+  * No source change upload against python 3.12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 08 Jul 2024 09:50:30 +0200
+
 graphviz (2.42.2-9) unstable; urgency=medium
 
   [ Andrey Rakhmatullin <wrar@debian.org> ]
