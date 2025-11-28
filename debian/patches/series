@@ -11,3 +11,4 @@ update_documentation_link.patch
 fix_out-of-bounds_write_on_invalid_label.patch
 CVE-2023-46045.patch
 fix-implicit-function-declaration.patch
+0001-suppress-compiler-warning-from-qsort-call.patch

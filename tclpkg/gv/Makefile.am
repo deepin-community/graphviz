@@ -32,6 +32,20 @@ $(SHARP_data): gv_sharp.cpp
 gv_sharp.cpp: gv.i
 	$(SWIG) -c++ -csharp -namespace gv -o gv_sharp.cpp $(srcdir)/gv.i
 
+pkgddir = $(pkglibdir)/d
+D_data = 
+nodist_libgv_d_la_SOURCES = gv_d.cpp $(D_data)
+libgv_d_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
+libgv_d_la_LIBADD = $(BASELIBS) $(D_LIBS)
+libgv_d_la_LDFLAGS = -module -avoid-version
+libgv_d_la_CPPFLAGS = $(BASECPPFLAGS) $(D_INCLUDES)
+# $(D_data): gv_d.cpp
+gv_d.cpp: gv.i
+	$(SWIG) -c++ -d -o gv_d.cpp $(srcdir)/gv.i
+	mv $@ $@.orig
+	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
+	rm $@.orig
+
 pkggodir = $(pkglibdir)/go
 GO_data = runtime.h gv.go
 nodist_libgv_go_la_SOURCES = gv_go.cpp runtime.h gv.go
@@ -106,6 +120,20 @@ $(JAVA_data): gv_java.cpp
 gv_java.cpp: gv.i
 	$(SWIG) -package org.graphviz -java -c++ -o gv_java.cpp $(srcdir)/gv.i
 
+pkgjavascriptdir = $(pkglibdir)/javascript
+JAVASCRIPT_data = 
+nodist_libgv_javascript_la_SOURCES = gv_javascript.cpp $(JAVASCRIPT_data)
+libgv_javascript_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
+libgv_javascript_la_LIBADD = $(BASELIBS) $(JAVASCRIPT_LIBS)
+libgv_javascript_la_LDFLAGS = -module -avoid-version
+libgv_javascript_la_CPPFLAGS = $(BASECPPFLAGS) $(JAVASCRIPT_INCLUDES)
+# $(D_data): gv_javascript.cpp
+gv_javascript.cpp: gv.i
+	$(SWIG) -c++ -javascript -o gv_d.cpp $(srcdir)/gv.i
+	mv $@ $@.orig
+	sed '/include/s/malloc\.h/cstdlib/' $@.orig > $@
+	rm $@.orig
+
 pkgluadir = $(pkglibdir)/lua
 LUA_data = 
 nodist_libgv_lua_la_SOURCES = gv_lua.cpp $(LUA_data)
@@ -130,7 +158,7 @@ nodist_libgv_ocaml_la_SOURCES = gv_ocaml.cpp $(OCAML_data)
 libgv_ocaml_la_SOURCES = $(BASESOURCES) gv_dummy_init.c
 libgv_ocaml_la_LIBADD = $(BASELIBS) $(OCAML_LIBS)
 libgv_ocaml_la_LDFLAGS = -module -avoid-version
-libgv_ocaml_la_CPPFLAGS = $(BASECPPFLAGS) $(OCAML_INCLUDES) -Dint64=int64_t
+libgv_ocaml_la_CPPFLAGS = $(BASECPPFLAGS) $(OCAML_INCLUDES) -Dint64=int64_t -fpermissive
 gv.ml gv.mli: gv_ocaml.cpp
 gv_ocaml.cpp: gv.i
 	$(SWIG) -c++ -ocaml -o gv_ocaml.cpp $(srcdir)/gv.i
@@ -160,7 +188,8 @@ gv.a:	gv.cmxa
 pkgperldir = $(pkglibdir)/perl
 PERL        ?= perl
 # cleanup for opencsw's perl which adds flags that g++ doesn't like
-PERL_CC      = `$(PERL) -MExtUtils::Embed -e ccopts | $(PERL) -pe 's/-x.*? //g'`
+# use sed (because I don't know perl) to cleanup flags that clang doen't like
+PERL_CC      = `$(PERL) -MExtUtils::Embed -e ccopts | $(SED) 's/-fstack-clash-protection //g' | $(PERL) -pe 's/-x.*? //g'`
 PERL_LD      = `$(PERL) -MExtUtils::Embed -e ldopts`
 VENDOR_ARCH  = `$(PERL) -MConfig -e 'print $$Config{installvendorarch};'`
 PERL_data = gv.pm
@@ -264,6 +293,13 @@ pdf_DATA += gv.3sharp.pdf
 pkgsharp_LTLIBRARIES = libgv_sharp.la
 DEVTSTS += test_sharp
 endif
+if WITH_D
+pkgd_DATA = $(D_data)
+#man_MANS += gv.3d
+#pdf_DATA += gv.3d.pdf
+pkgd_LTLIBRARIES = libgv_d.la
+#DEVTSTS += test_d
+endif
 if WITH_GO
 pkggo_DATA = $(GO_data)
 man_MANS += gv.3go
@@ -291,6 +327,13 @@ man_MANS += gv.3java
 pdf_DATA += gv.3java.pdf
 pkgjava_LTLIBRARIES = libgv_java.la
 DEVTSTS += test_java
+endif
+if WITH_JAVASCRIPT
+pkgd_DATA = $(JAVASCRIPT_data)
+#man_MANS += gv.3javascript
+#pdf_DATA += gv.3javascript.pdf
+pkgjavascript_LTLIBRARIES = libgv_javascript.la
+#DEVTSTS += test_javascript
 endif
 if WITH_LUA
 pkglua_DATA = $(LUA_data)

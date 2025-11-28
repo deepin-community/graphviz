@@ -38,6 +38,8 @@
 #include "gvio.h"
 #include "gvcint.h"
 
+#define LOCALNAMEPREFIX		'%'
+
 typedef enum { FORMAT_SVG, FORMAT_SVGZ, } format_type;
 
 /* SVG dash array */
@@ -201,7 +203,7 @@ static void svg_begin_graph(GVJ_t * job)
     obj_state_t *obj = job->obj;
 
     gvputs(job, "<!--");
-    if (agnameof(obj->u.g)[0]) {
+    if (agnameof(obj->u.g)[0] && agnameof(obj->u.g)[0] != LOCALNAMEPREFIX) {
 	gvputs(job, " Title: ");
 	gvputs(job, xml_string(agnameof(obj->u.g)));
     }
@@ -253,16 +255,16 @@ static void svg_begin_page(GVJ_t * job)
      * and it is the entire graph if we're not currently paging */
     svg_print_id_class(job, obj->id, NULL, "graph", obj->u.g);
     gvputs(job, " transform=\"scale(");
-    gvprintdouble(job, 1.0/job->scale.x);
+    gvprintdouble(job, job->scale.x);
     gvputs(job, " ");
-    gvprintdouble(job, 1.0/job->scale.y);
+    gvprintdouble(job, job->scale.y);
     gvprintf(job, ") rotate(%d) translate(", -job->rotation);
     gvprintdouble(job, job->translation.x);
     gvputs(job, " ");
     gvprintdouble(job, -job->translation.y);
     gvputs(job, ")\">\n");
     /* default style */
-    if (agnameof(obj->u.g)[0]) {
+    if (agnameof(obj->u.g)[0] && agnameof(obj->u.g)[0] != LOCALNAMEPREFIX) {
 	gvputs(job, "<title>");
 	gvputs(job, xml_string(agnameof(obj->u.g)));
 	gvputs(job, "</title>\n");
@@ -350,7 +352,7 @@ svg_begin_anchor(GVJ_t * job, char *href, char *tooltip, char *target,
 #endif
     if (href && href[0]) {
 	gvputs(job, " xlink:href=\"");
-	gvputs(job, href);
+	gvputs(job, xml_url_string(href));
 	gvputs(job, "\"");
     }
 #if 0

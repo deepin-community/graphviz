@@ -1,8 +1,32 @@
-graphviz (2.42.2-9deepin1) unstable; urgency=medium
+graphviz (2.42.4-3) unstable; urgency=medium
 
-  * No source change upload against python 3.12.
+  * Add required python3-setuptools as build dependency (closes: #1080613).
+  * Update Standards-Version to 4.7.0 .
 
- -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 08 Jul 2024 09:50:30 +0200
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 09 Mar 2025 16:36:00 +0000
+
+graphviz (2.42.4-2) unstable; urgency=medium
+
+  [ Niko Tyni <ntyni@debian.org> ]
+  * Backport upstream fix to suppress compiler warning from qsort() call
+    (closes: #1077399).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Wed, 07 Aug 2024 16:52:13 +0200
+
+graphviz (2.42.4-1) unstable; urgency=medium
+
+  * New upstream release (closes: #1075904).
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 08 Jul 2024 19:27:13 +0200
+
+graphviz (2.42.2-10) unstable; urgency=medium
+
+  * Recommend fonts-liberation (closes: #1039981).
+  * Update watch file.
+  * Update Standards-Version to 4.6.2 .
+  * Update debhelper level to 13 .
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sat, 06 Jul 2024 19:46:00 +0200
 
 graphviz (2.42.2-9) unstable; urgency=medium
 

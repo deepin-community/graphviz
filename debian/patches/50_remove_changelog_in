@@ -1,6 +1,7 @@
 Description: remove Debian references from upstream
  Don't alter files under debian/ directory.
 Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Forwarded: not-needed
 Last-Update: 2019-09-01
 
 ---
