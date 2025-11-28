@@ -6,7 +6,8 @@ stages:
 portable-source:
     stage: source
     tags:
-        - graphviz,centos7
+        - linux
+    image: "graphviz/graphviz:ubuntu-18.04"
     script:
         - ./autogen.sh
         - make dist
@@ -17,13 +18,11 @@ portable-source:
             - VERSION
             - COLLECTION
             - graphviz-*.tar.gz
-    only:
-        - master
 
 .build_template: &rpm_build_definition
     stage: build
     script:
-        - rm -rf /home/gitlab-runner/rpmbuild
+        - rm -rf ${HOME}/rpmbuild
         - GV_VERSION=$( cat VERSION )
         - COLLECTION=$( cat COLLECTION )
         - rpmbuild -ta graphviz-${GV_VERSION}.tar.gz
@@ -35,21 +34,20 @@ portable-source:
         - mkdir -p ${DIR}/os/${ARCH}
         - mkdir -p ${DIR}/debug/${ARCH}
         - mkdir -p ${DIR}/source
-        - mv /home/gitlab-runner/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
-        - mv /home/gitlab-runner/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/
-        - mv /home/gitlab-runner/rpmbuild/RPMS/*/*.rpm ${DIR}/os/${ARCH}/
+        - mv ${HOME}/rpmbuild/SRPMS/*.src.rpm ${DIR}/source/
+        - mv ${HOME}/rpmbuild/RPMS/*/*debuginfo*rpm ${DIR}/debug/${ARCH}/
+        - mv ${HOME}/rpmbuild/RPMS/*/*.rpm ${DIR}/os/${ARCH}/
     artifacts:
         when: on_success
         expire_in: 1 week
         paths:
             - Packages/*/*/*/*/*/*.rpm
             - Packages/*/*/*/*/*.rpm
-    only:
-         - master
 
 .build_template: &deb_build_definition
     stage: build
     script:
+        - cat /etc/os-release
         - GV_VERSION=$( cat VERSION )
         - COLLECTION=$( cat COLLECTION )
         - zcat graphviz-${GV_VERSION}.tar.gz | tar xf -
@@ -68,64 +66,90 @@ portable-source:
         paths:
             - Packages/*/*/*/*/*/*deb
             - Packages/*/*/*/*/*.gz
-    only:
-        - master
 
 centos6-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,centos6
+        - linux
+    image: "graphviz/graphviz:centos6"
 
 centos7-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,centos7
+        - linux
+    image: "graphviz/graphviz:centos7"
 
-fedora27-build:
+centos8-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,fedora27
+        - linux
+    image: "graphviz/graphviz:centos8"
 
-fedora28-build:
-    <<: *rpm_build_definition
-    tags:
-        - graphviz,fedora28
+          #fedora27-build:
+          #<<: *rpm_build_definition
+          #tags:
+          #- graphviz,fedora27
+
+          #fedora28-build:
+          #<<: *rpm_build_definition
+          #tags:
+          #- graphviz,fedora28
 
 fedora29-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,fedora29
+        - linux
+    image: "graphviz/graphviz:fedora29"
 
 fedora30-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,fedora30
+        - linux
+    image: "graphviz/graphviz:fedora30"
 
 fedora31-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,fedora31
+        - linux
+    image: "graphviz/graphviz:fedora31"
 
 fedora32-build:
     <<: *rpm_build_definition
     tags:
-        - graphviz,fedora32
+        - linux
+    image: "graphviz/graphviz:fedora32"
+
+fedora33-build:
+    <<: *rpm_build_definition
+    tags:
+        - linux
+    image: "graphviz/graphviz:fedora33"
 
 ubuntu18-04-build:
     <<: *deb_build_definition
     tags:
-        - graphviz,ubuntu18-04
+        - linux
+    image: "graphviz/graphviz:ubuntu-18.04"
 
+# FIXME: Ubuntu 18.10 is End of Life. Docker image cannot be created. Fix or remove
 ubuntu18-10-build:
     <<: *deb_build_definition
     tags:
         - graphviz,ubuntu18-10
+    only:
+        - master@graphviz/graphviz
 
 ubuntu19-04-build:
     <<: *deb_build_definition
     tags:
-        - graphviz,ubuntu19-04
+        - linux
+    image: "graphviz/graphviz:ubuntu-19.04"
 
+ubuntu19-10-build:
+    <<: *deb_build_definition
+    tags:
+        - linux
+    image: "graphviz/graphviz:ubuntu-19.10"
 
 deployment:
     stage: deploy
@@ -146,8 +170,9 @@ deployment:
         - ssh "$DEPLOY_USER"@"$DEPLOY_HOST" 'for i in Packages/'"$COLLECTION"'/{fedora,centos}/*/{source,os/*,debug/*}; do createrepo $i; done'
         - scp graphviz-fedora.repo graphviz-centos.repo "$DEPLOY_USER"@"$DEPLOY_HOST"':'Packages/
         - ssh "$DEPLOY_USER"@"$DEPLOY_HOST" mkdir -p Packages/"$COLLECTION"/portable_source
-        - scp graphviz-"$GV_VERSION".tar.gz "$DEPLOY_USER"@"$DEPLOY_HOST"':'Packages/"$COLLECTION"/portable_source/
+        - md5sum graphviz-"$GV_VERSION".tar.gz >graphviz-"$GV_VERSION".tar.gz.md5
+        - scp graphviz-"$GV_VERSION".tar.gz graphviz-"$GV_VERSION".tar.gz.md5 "$DEPLOY_USER"@"$DEPLOY_HOST"':'Packages/"$COLLECTION"/portable_source/
     only:
-        - master
+        - master@graphviz/graphviz
     tags:
         - graphviz,deploy

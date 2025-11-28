@@ -2,11 +2,12 @@ Source: graphviz
 Section: graphics
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
-Standards-Version: 4.5.0
+Standards-Version: 4.7.0
 Build-Depends: tk-dev,
  tcl-dev,
- debhelper-compat (= 11),
+ debhelper-compat (= 13),
  dh-python,
+ python3-setuptools,
  libfreetype-dev,
  zlib1g-dev,
  libjpeg-dev,
@@ -46,7 +47,7 @@ Package: graphviz
 Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, libgvc6 (>= 2.42.1), ${misc:Depends}
-Recommends: fonts-liberation2
+Recommends: fonts-liberation
 Suggests: gsfonts, graphviz-doc
 Description: rich set of graph drawing tools
  Graph drawing addresses the problem of visualizing structural information
